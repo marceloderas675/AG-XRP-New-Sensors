@@ -3,22 +3,22 @@ import time
 
 #data sheet used:https://cdn.sparkfun.com/assets/3/0/b/7/6/STTS22h-Datasheet.pdf
 
-#_AVAILABLE_I2C_ADDRESS = [ 0x62] probably not 62 available lol
-#_DEFAULT_NAME = "Qwiic STTS22H"
+_AVAILABLE_I2C_ADDRESS = 0x3C
+#addresses are 60 (default)
+_DEFAULT_NAME = "Qwiic STTS22H"
 
-#check that these are needed
 WHOAMI = 0x01
 TEMP_H_LIMIT = 0x02
 TEMP_L_LIMIT = 0x03
 CTRL = 0x04
 STATUS = 0x05
-TEMP_L_OUT = 0x05
+TEMP_L_OUT = 0x06
 TEMP_H_OUT = 0x07
 
 class QwiicSTTS22H(object):
     # Set default name and I2C address(es)
-    #device_name         = _DEFAULT_NAME
-    #available_addresses = _AVAILABLE_I2C_ADDRESS
+    device_name         = _DEFAULT_NAME
+    available_addresses = _AVAILABLE_I2C_ADDRESS
 def __init__(self, address=None, i2c_driver=None):
         """!
         Constructor
@@ -44,7 +44,7 @@ def __init__(self, address=None, i2c_driver=None):
         else:
             self._i2c = i2c_driver
 
-        self._doingPeriodicMeasurement = False
+        #self._doingPeriodicMeasurement = False
 
         # Set by read_measurement
         self._temperature = 0
@@ -57,3 +57,60 @@ def is_connected(self):
         """
         # Check if connected by seeing if an ACK is received
         return self._i2c.isDeviceConnected(self.address)
+    
+def begin(self, LOW_ODR_START = 1):
+    """!
+        Initializes this device with default parameters
+
+        @return **bool** Returns `True` if successful, otherwise `False`
+        """
+        # Confirm device is connected before doing anything
+        if not self.is_connected():
+            return False
+
+def checkStatus(self)
+
+def readTemperature(self):
+    bytesreadTHO = self._i2c.readBlock(self.TEMP_H_OUT, None, 8)
+    bytesreadTHO = self._i2c.readBlock(self.TEMP_L_OUT, None, 8)
+
+def operatingDataRate(self):        
+        bytesreadCTRL = self._i2c.readBlock(self.CTRL, None, 7)
+        #above means to read 7 bits on CTRL register
+        FREERUN = bytesreadCTRL[4]
+        ONE_SHOT = bytesreadCTRL[6]
+        LOW_ODR_START = bytesreadCTRL[0]
+        
+        if !LOW_ODR_START & !FREERUN:
+            frequency = 1;
+            #1Hz
+        elif ONE_SHOT:
+            frequency = 1;
+            #1Hz
+        elif FREERUN & AVG[1:0] = 0:
+            frequency = 25;
+            #25Hz
+        elif FREERUN & AVG[1:0] = 1:
+            frequency = 50;
+            #50Hz
+        elif FREERUN & AVG[1:0] = 2:
+            frequency = 100;
+            #100Hz
+        elif FREERUN & AVG[1:0] = 3:
+            frequency = 200;
+            #200Hz
+        else:
+            frequency = 1;
+
+        return frequency
+    #define frequency earlier
+
+
+"""interrupt settings"""
+
+def getInterruptHighC(self):
+    #gets higher temperature threshold
+    int32_t = retVal;
+    uint8_t = tempC;
+    
+    retVal = 
