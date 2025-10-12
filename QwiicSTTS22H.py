@@ -60,15 +60,15 @@ def is_connected(self):
     
 def begin(self, LOW_ODR_START = 1):
     """!
-        Initializes this device with default parameters
+    Initializes this device with default parameters
 
-        @return **bool** Returns `True` if successful, otherwise `False`
-        """
-        # Confirm device is connected before doing anything
-        if not self.is_connected():
-            return False
+    @return **bool** Returns `True` if successful, otherwise `False`
+    """
+    # Confirm device is connected before doing anything
+    if not self.is_connected():
+        return False
 
-def checkStatus(self)
+#def checkStatus(self):
 
 def readTemperature(self):
     bytesreadTHO = self._i2c.readBlock(self.TEMP_H_OUT, None, 8)
@@ -81,26 +81,26 @@ def operatingDataRate(self):
         ONE_SHOT = bytesreadCTRL[6]
         LOW_ODR_START = bytesreadCTRL[0]
         
-        if !LOW_ODR_START & !FREERUN:
-            frequency = 1;
+        if (not LOW_ODR_START) and (not FREERUN):
+            frequency = 1
             #1Hz
         elif ONE_SHOT:
-            frequency = 1;
+            frequency = 1
             #1Hz
-        elif FREERUN & AVG[1:0] = 0:
-            frequency = 25;
+        elif FREERUN & AVG[1:0] == 0:
+            frequency = 25
             #25Hz
-        elif FREERUN & AVG[1:0] = 1:
-            frequency = 50;
+        elif FREERUN & AVG[1:0] == 1:
+            frequency = 50
             #50Hz
-        elif FREERUN & AVG[1:0] = 2:
-            frequency = 100;
+        elif FREERUN & AVG[1:0] == 2:
+            frequency = 100
             #100Hz
-        elif FREERUN & AVG[1:0] = 3:
-            frequency = 200;
+        elif FREERUN & AVG[1:0] == 3:
+            frequency = 200
             #200Hz
         else:
-            frequency = 1;
+            frequency = 1
 
         return frequency
     #define frequency earlier
@@ -110,7 +110,7 @@ def operatingDataRate(self):
 
 def getInterruptHighC(self):
     #gets higher temperature threshold
-    int32_t = retVal;
-    uint8_t = tempC;
+    int32_t = retVal
+    uint8_t = tempC
     
-    retVal = 
+    retVal = 0
