@@ -49,7 +49,7 @@ New to Qwiic? Take a look at the entire [SparkFun Qwiic ecosystem](https://www.s
 
 # The Qwiic_I2C_Py platform driver is designed to work on almost any Python
 # platform, check it out here: https://github.com/sparkfun/Qwiic_I2C_Py
-from machine import I2C, Pin
+import qwiic_i2c
 import time
 
 # Define the device name and I2C addresses. These are set in the class defintion
@@ -673,4 +673,5 @@ class QwiicVEML6030(object):
 
         @return **int** Register value
         """
+
         return self._i2c.readWord(self.address, reg)
