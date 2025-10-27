@@ -33,7 +33,7 @@
 # SOFTWARE.
 #==================================================================================
 
-from .i2c_driver import I2CDriver
+from i2c_driver import I2CDriver
 
 import sys
 
