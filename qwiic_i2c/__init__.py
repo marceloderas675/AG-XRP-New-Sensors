@@ -63,7 +63,7 @@ New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.s
 #
 #-----------------------------------------------------------------------------
 # Drivers and driver baseclass
-from .i2c_driver import I2CDriver
+from i2c_driver import I2CDriver
 
 # All supported platform module and class names
 _supported_platforms = {
@@ -79,7 +79,7 @@ _drivers = []
 # append them to the driver list if so
 for module_name, class_name in _supported_platforms.items():
 	try:
-		sub_module = __import__("qwiic_i2c." + module_name, None, None, [None])
+		sub_module = __import__(module_name, None, None, [None])
 		_drivers.append(getattr(sub_module, class_name))
 	except:
 		pass
