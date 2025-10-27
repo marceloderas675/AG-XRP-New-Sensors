@@ -49,7 +49,10 @@ New to Qwiic? Take a look at the entire [SparkFun Qwiic ecosystem](https://www.s
 
 # The Qwiic_I2C_Py platform driver is designed to work on almost any Python
 # platform, check it out here: https://github.com/sparkfun/Qwiic_I2C_Py
-import qwiic_i2c
+#from machine import I2C, Pin
+import __init__
+import i2c_driver
+import micropython_i2c
 import time
 
 # Define the device name and I2C addresses. These are set in the class defintion
@@ -134,8 +137,8 @@ class QwiicVEML6030(object):
     VEML6030_INTEG_TIME_100 = 100
     VEML6030_INTEG_TIME_50 = 50
     VEML6030_INTEG_TIME_25 = 25
-
-    def __init__(self, address=None, i2c_driver=None):
+    
+    def __init__(self, address=None, i2c_Driver=None):
         """!
         Constructor
 
@@ -144,21 +147,20 @@ class QwiicVEML6030(object):
         @param I2CDriver, optional i2c_driver: An existing i2c driver object
             If not provided, a driver object is created
         """
-        print(self.available_addresses)
         # Use address if provided, otherwise pick the default
         if address in self.available_addresses:
             self.address = address
         else:
             self.address = self.available_addresses[0]
-        print(self.address)
+        print(self.available_addresses)
         # Load the I2C driver if one isn't provided
-        if i2c_driver is None:
-            #TODO: Load I2C driver
+        if i2c_Driver is None:
+            self._i2c = __init__.getI2CDriver()
             if self._i2c is None:
                 print("Unable to load I2C driver for this platform.")
                 return
         else:
-            self._i2c = i2c_driver
+            self._i2c = i2c_Driver
 
     def is_connected(self):
         """!
@@ -167,6 +169,7 @@ class QwiicVEML6030(object):
         @return **bool** `True` if connected, otherwise `False`
         """
         # Check if connected by seeing if an ACK is received
+        print(self._i2c.scan())
         return self._i2c.isDeviceConnected(self.address)
 
     connected = property(is_connected)
@@ -673,5 +676,4 @@ class QwiicVEML6030(object):
 
         @return **int** Register value
         """
-
         return self._i2c.readWord(self.address, reg)
