@@ -80,7 +80,7 @@ class MicroPythonI2C(I2CDriver):
 	name = _PLATFORM_NAME
 	_i2cbus = None
 
-	def __init__(self, sda=None, scl=None, freq=100000, *args, **argk):
+	def __init__(self, sda=18, scl=19, freq=100000, *args, **argk):
 		I2CDriver.__init__(self) # init super
 
 		self._sda = sda
