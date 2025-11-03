@@ -64,7 +64,7 @@ _DEFAULT_NAME = "Qwiic VEML6030"
 # Some devices have multiple available addresses - this is a list of these
 # addresses. NOTE: The first address in this list is considered the default I2C
 # address for the device.
-_AVAILABLE_I2C_ADDRESS = [0x48, 0x10]
+_AVAILABLE_I2C_ADDRESS = [0x48, 0x6B]
 
 # Define the class that encapsulates the device being created. All information
 # associated with this device is encapsulated by this class. The device class
@@ -152,7 +152,7 @@ class QwiicVEML6030(object):
             self.address = address
         else:
             self.address = self.available_addresses[0]
-        print(self.available_addresses)
+    
         # Load the I2C driver if one isn't provided
         if i2c_Driver is None:
             self._i2c = __init__.getI2CDriver()
@@ -169,7 +169,6 @@ class QwiicVEML6030(object):
         @return **bool** `True` if connected, otherwise `False`
         """
         # Check if connected by seeing if an ACK is received
-        print(self._i2c.scan())
         return self._i2c.isDeviceConnected(self.address)
 
     connected = property(is_connected)
