@@ -390,3 +390,4 @@ class I2CDriver(object):
 
 		"""
 		return None
+
