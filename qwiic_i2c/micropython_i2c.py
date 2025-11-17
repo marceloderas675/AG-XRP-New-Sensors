@@ -33,14 +33,14 @@
 # SOFTWARE.
 #==================================================================================
 
-from i2c_driver import I2CDriver
+from .i2c_driver import I2CDriver
 
 import sys
 
 _PLATFORM_NAME = "MicroPython"
 
 # used internally in this file to get i2c class object 
-def _connectToI2CBus(sda=None, scl=None, freq=100000, *args, **argk):
+def _connectToI2CBus(sda=18, scl=19, freq=100000, *args, **argk):
 	try:
 		from machine import I2C, Pin
 		if sys.platform == 'rp2':
@@ -211,3 +211,4 @@ class MicroPythonI2C(I2CDriver):
 	def scan(self):
 		""" Returns a list of addresses for the devices connected to the I2C bus."""
 		return self._i2cbus.scan()
+
