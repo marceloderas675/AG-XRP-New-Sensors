@@ -17,38 +17,41 @@ else:
     print("Found devices:", [hex(d) for d in devices])
 
 #set up temp
-# stts = stts22h.STTS22H(i2c)
-# stts.output_data_rate = stts22h.ODR_25_HZ
+stts = stts22h.STTS22H(i2c)
+stts.output_data_rate = stts22h.ODR_25_HZ
 
 #set up light
 light_sensor = qwiic_veml6030.QwiicVEML6030(address=0x48)
 # Check if it's connected
 if light_sensor.is_connected() == False:
-    print("The device isn't connected to the system. Please check your connection", \
+     print("The device isn't connected to the system. Please check your connection", \
         file=sys.stderr)
 light_sensor.begin()
 
 #set up oled
 myOLED = qwiic_oled.QwiicMicroOled()
-
+# 
 if not myOLED.connected:
     print("The Qwiic Micro OLED device isn't connected to the system. Please check your connection", \
         file=sys.stderr)
 myOLED.begin()
 myOLED.clear(myOLED.ALL)
-myOLED.display()
+
 
 # can change above to be ODR_50_HZ, ODR_100_HZ, and ODR_200_HZ
 while True:
     
     ambient_light = light_sensor.read_light()
-    for _ in range(10):
-        #print(f"Temperature: {stts.temperature:.1f}°F")
+    for output_data_rate in stts22h.output_data_rate_values:
+        print(f"Temperature: {stts.temperature:.1f}°F")
         print("Lux:\t%.1f" % ambient_light)
-        myOLED.clear(myOLED.PAGE)
-        #myOLED.print(f"Temp: {stts.temperature:.1f}°F")
+        myOLED.set_cursor(0,0)
+        myOLED.print(f"Temp: {stts.temperature:.1f}°F")
+        myOLED.set_cursor(0,10)
         myOLED.print("Lux:\t%.1f" % ambient_light)
+        #myOLED.print(_)
         myOLED.display()
-        time.sleep(0.5)
-        #stts.output_data_rate = output_data_rate
+        myOLED.clear(myOLED.ALL)
+        myOLED.clear(myOLED.PAGE)
+        stts.output_data_rate = output_data_rate
 
