@@ -6,6 +6,7 @@ import stts22h
 import qwiic_oled
 import qwiic_bme280
 import qwiic_ens160
+import qwiic_scd4x
 i2c = I2C(1, sda=Pin(18), scl=Pin(19)) # Correct I2C pins for RP2040
 # for XRP beta use 18 & 19 for sda and scl respectively
 # for XRP use 2 and 3
@@ -59,6 +60,16 @@ if not myOLED.connected:
 myOLED.begin()
 myOLED.clear(myOLED.ALL)
 
+#co2 and stuff sensor set up
+mySCD4x = qwiic_scd4x.QwiicSCD4x() 
+
+# Check if it's connected
+if mySCD4x.is_connected() == False:
+    print("The device isn't connected to the system. Please check your connection", file=sys.stderr)
+
+# Initialize the device
+if mySCD4x.begin() == False:
+    print("Error while initializing device", file=sys.stderr)
 
 # can change above to be ODR_50_HZ, ODR_100_HZ, and ODR_200_HZ
 while True:
@@ -81,6 +92,10 @@ while True:
         print("Total Volatile Organic Compounds (ppb): ", myEns.get_tvoc())
         print("CO2 concentration (ppm): ", myEns.get_eco2())
         print("Gas Sensor Status Flag (0 - Standard, 1 - Warm up, 2 - Initial Start Up): ", myEns.get_flags())
+    if mySCD4x.read_measurement(): # This must be called to get new data. It will return false until new data is available 
+        print("\nCO2(ppm):", mySCD4x.get_co2())
+        print("Temperature(C):", mySCD4x.get_temperature())
+        print("Humidity(%RH):", mySCD4x.get_humidity())
     time.sleep(1)
     myOLED.clear(myOLED.ALL)
     myOLED.clear(myOLED.PAGE)
